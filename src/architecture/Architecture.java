@@ -542,7 +542,7 @@ public class Architecture {
 	 * 6. pc -> extbus //(pc.read())the address where is the position to be read is now in the external bus 
 	 * 7. memory reads from extbus //this forces memory to write the stored data in the extbus
 	 * 8. RPG <- extbus //rpg.store()
-	 * 9. 10. pc -> intbus2 //pc.read() now pc must point the next instruction address
+	 * 9. pc -> intbus2 //pc.read() now pc must point the next instruction address
 	 * 10. ula <- intbus2 //ula.store()
 	 * 11. ula incs
 	 * 12. ula -> intbus2 //ula.read()
@@ -647,19 +647,24 @@ public class Architecture {
 		ula.inc();
 		ula.internalRead(1);
 		PC.internalStore(); //now PC points to the first parameter (the first reg id)
+
 		PC.read(); 
 		memory.read(); // the first register id is now in the external bus.
+
 		PC.internalRead();
 		ula.internalStore(1);
 		ula.inc();
 		ula.internalRead(1);
 		PC.internalStore(); //now PC points to the second parameter (the second reg id)
+		
 		demux.put(extbus1.get()); //points to the correct register
 		registersInternalRead(); //starts the read from the register identified into demux bus
+
 		PC.read();
 		memory.read(); // the second register id is now in the external bus.
 		demux.put(extbus1.get());//points to the correct register
 		registersInternalStore(); //performs an internal store for the register identified into demux bus
+
 		PC.internalRead(); //we need to make PC points to the next instruction address
 		ula.internalStore(1);
 		ula.inc();

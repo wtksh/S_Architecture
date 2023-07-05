@@ -145,10 +145,16 @@ public class Assembler {
 		String parameter ="";
 		String parameter2 = "";
 		int commandNumber = findCommandNumber(tokens);
-		if (commandNumber == 0) { //must to proccess an add command
+		if (commandNumber == 0) { //must to proccess an addRegReg command
 			parameter = tokens[1];
-			parameter = "&"+parameter; //this is a flag to indicate that is a position in memory
+			//parameter2 = tokens[2];
 		}
+		// if (commandNumber == 1) { //must to proccess an addMemReg command
+		// 	parameter = tokens[1];
+		// 	parameter2 = tokens[2];
+		// 	parameter = "&"+parameter; //this is a flag to indicate that is position in memory
+		// }
+
 		if (commandNumber == 1) { //must to proccess an sub command
 			parameter = tokens[1];
 			parameter = "&"+parameter;//this is a flag to indicate that is a position in memory		
@@ -379,7 +385,7 @@ public class Assembler {
 	}
 
 	public static void main(String[] args) throws IOException {
-		String filename = args[0];
+		String filename = "program";
 		Assembler assembler = new Assembler();
 		System.out.println("Reading source assembler file: "+filename+".dsf");
 		assembler.read(filename);
