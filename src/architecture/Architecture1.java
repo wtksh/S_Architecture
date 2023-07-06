@@ -718,15 +718,260 @@ public class Architecture1 {
 	}
 
 	public void moveMemReg() {
+		//PC++
+		RPG0.read();
+		IR.store();//Save original value RPG0
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();//now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
+
+		// tive que usar a ula, pq toda vez que fazia pc++ destruia o dado que eu peguei da mem
+		RPG0.read();
+		IR.store();
+		PC.read();
+		memory.read();
+		memory.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(0);
+		IR.read();
+		RPG0.store();
+
+		//PC++
+		RPG0.read();
+		IR.store();//Save original value RPG0
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();//now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
+
+		//Get Reg
+		ula.internalRead(0);
+		memory.read();
+		demux.put(extbus1.get());
+		registersInternalStore();
+
+		//PC++
+		RPG0.read();
+		IR.store();//Save original value RPG0
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();//now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
 	}
 
 	public void moveRegMem() {
+		//PC++
+		RPG0.read();
+		IR.store();//Save original value RPG0
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();//now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
+
+		//Get Reg
+		memory.read();
+		demux.put(extbus1.get());
+
+		//PC++
+		RPG0.read();
+		IR.store();//Save original value RPG0
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();//now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
+
+		//Get Mem
+		memory.read();
+		memory.store();
+		registersRead();
+		memory.store();
+
+		//PC++
+		RPG0.read();
+		IR.store();//Save original value RPG0
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();//now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
 	}
 
 	public void moveRegReg() {
+		//PC++
+		RPG0.read();
+		IR.store();//Save original value RPG0
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();//now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
+
+		//Get Reg1
+		memory.read();
+		demux.put(extbus1.get());
+		registersInternalRead();
+		ula.internalStore(0);
+
+		//PC++
+		RPG0.read();
+		IR.store();//Save original value RPG0
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();//now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
+
+		//Get Reg2
+		memory.read();
+		ula.internalRead(0);
+		demux.put(extbus1.get());
+		registersInternalStore();
+
+		//PC++
+		RPG0.read();
+		IR.store();//Save original value RPG0
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();//now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
 	}
 
 	public void moveImmReg() {
+		//PC++
+		RPG0.read();
+		IR.store();//Save original value RPG0
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();//now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
+
+		//Get Imm
+		RPG0.read();
+		IR.store();
+		PC.read();
+		memory.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(0);
+		IR.read();
+		RPG0.store();
+
+		//PC++
+		RPG0.read();
+		IR.store();//Save original value RPG0
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();//now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
+
+		//Get Reg
+		memory.read();
+		ula.internalRead(0);
+		demux.put(extbus1.get());
+		registersInternalStore();
+
+		//PC++
+		RPG0.read();
+		IR.store();//Save original value RPG0
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();//now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
 	}
 
 	public void incReg() {

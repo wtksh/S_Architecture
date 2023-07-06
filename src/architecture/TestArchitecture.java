@@ -59,7 +59,37 @@ public class TestArchitecture {
 	}
 
 	@Test
-	public void testAdd() {
+	public void testAddRegReg(){
+		Architecture arch = new Architecture();
+		
+		arch.getMemory().getDataList()[5] = 2;
+		arch.getMemory().getDataList()[6] = 40;
+		arch.getMemory().getDataList()[40] = 10;
+		
+		arch.getExtbus1().put(4);
+		arch.getPC().store();
+
+		arch.getExtbus1().put(5);
+		arch.getRegistersList().get(2).store();
+
+		arch.AddRegMem();
+
+		arch.getExtbus1().put(40);
+		arch.getMemory().read();
+	
+		assertEquals(15, arch.getExtbus1().get());
+
+		arch.getRegistersList().get(2).read();
+		assertEquals(5, arch.getExtbus1().get());
+
+		assertEquals(0, arch.getFlags().getBit(0));
+		assertEquals(0, arch.getFlags().getBit(1));
+		
+		arch.getPC().read();
+		assertEquals(7, arch.getExtbus1().get());
+
+	}
+	/*public void testAdd() {
 		Architecture arch = new Architecture();
 		//storing the number 5 in position 40
 		arch.getExtbus1().put(40);
@@ -95,141 +125,193 @@ public class TestArchitecture {
 		arch.getPC().read();
 		assertEquals(12, arch.getExtbus1().get());
 
-	}
+	}*/
 	
 	@Test
-	public void testSub() {
+	public void testSubRegReg() {
 		Architecture arch = new Architecture();
-		
-		/*************************
-		 * first test: 5 (rpg) - 8 (mem-40) = -3 (rpg)
-		 ***********************************************/
-		
-		//storing the number 8 i the memory, in position 40
-		arch.getExtbus1().put(40);
-		arch.getMemory().store();
-		arch.getExtbus1().put(8);
-		arch.getMemory().store();
-		//storing the number 5 in the external bus
-		arch.getExtbus1().put(5);
-		//moving this number 5 into the rpg
-		arch.getRPG().store();
-		
-		//moreover, the number 40 must be in the position next to PC. (to perform sub 40)
-		//in this test, PC will point to 10 and the 40 will be in the position 11
-		arch.getExtbus1().put(11);
-		arch.getMemory().store();
-		arch.getExtbus1().put(40); //40 is in position 11
-		arch.getMemory().store();
-		arch.getExtbus1().put(10);
-		arch.getPC().store();      //PC points to position 10
-		
-		//now we can perform the sub method. 
-		//we will sub, from the number 5 (stored in the rpg) 
-		//the number 8 (stored in the memory, position 40)
-		//result must be into rpg
-		arch.sub();
-		arch.getRPG().read();
-		//the bus must contains the number -3
-		assertEquals(-3, arch.getExtbus1().get());
-		
-		//flags bits must be 0 (bit zero) and 1 (bit negative)
-		assertEquals(0, arch.getFlags().getBit(0));
-		assertEquals(1, arch.getFlags().getBit(1));
-		
-		
-		//PC must be pointing to 12
-		arch.getPC().read();
-		assertEquals(12, arch.getExtbus1().get());
 
-		/*************************
-		 * second test: 5 (rpg) - 5 (mem-50) = 0 (rpg)
-		 ***********************************************/
+		arch.getMemory().getDataList()[5] = 2;
+		arch.getMemory().getDataList()[6] = 40;
+		arch.getMemory().getDataList()[40] = 5;
 		
-		//storing the number 5 in the memory, in position 50
-		arch.getExtbus1().put(50);
-		arch.getMemory().store();
-		arch.getExtbus1().put(5);
-		arch.getMemory().store();
-		//storing the number 5 in the external bus
-		arch.getExtbus1().put(5);
-		//moving this number 5 into the rpg
-		arch.getRPG().store();
+		arch.getExtbus1().put(4);
+		arch.getPC().store();
+
+		arch.getExtbus1().put(6);
+		arch.getRegistersList().get(2).store();
+
+		arch.SubRegMem();
 		
-		//moreover, the number 50 must be in the position next to PC. (to perform sub 50)
-		//in this test, PC will point to 12 and the 50 will be in the position 13
-		arch.getExtbus1().put(13);
-		arch.getMemory().store();
-		arch.getExtbus1().put(50); //50 is in position 13
-		arch.getMemory().store();
-		arch.getExtbus1().put(12);
-		arch.getPC().store();      //PC points to position 12
-		
-		
-		//now we can perform the sub method. 
-		//we will sub, from the number 5 (stored in the rpg) 
-		//the number 5 (already stored in the memory, position 50)
-		//result must be into rpg
-		arch.sub();
-		arch.getRPG().read();
-		//the bus must contains the number 0
-		assertEquals(0, arch.getExtbus1().get());
-		
-		//flags bits must be 1 (bit zero) and 0 (bit negative)
-		assertEquals(1, arch.getFlags().getBit(0));
-		assertEquals(0, arch.getFlags().getBit(1));
-		
-		//PC must be pointing to 14
-		arch.getPC().read();
-		assertEquals(14, arch.getExtbus1().get());
-		
-		/*************************
-		 * third test: 5 (rpg) - 3 (mem-60) = 2 (rpg)
-		 ***********************************************/
-		
-		//storing the number 3 in the memory, in position 60
-		arch.getExtbus1().put(60);
-		arch.getMemory().store();
-		arch.getExtbus1().put(3);
-		arch.getMemory().store();
-		//storing the number 5 in the external bus
-		arch.getExtbus1().put(5);
-		//moving this number 5 into the rpg
-		arch.getRPG().store();
-		
-		//moreover, the number 60 must be in the position next to PC. (to perform sub 60)
-		//in this test, PC will point to 14 and the 60 will be in the position 15
-		arch.getExtbus1().put(15);
-		arch.getMemory().store();
-		arch.getExtbus1().put(60); //60 is in position 15
-		arch.getMemory().store();
-		arch.getExtbus1().put(14);
-		arch.getPC().store();      //PC points to position 14
-		
-		
-		//now we can perform the sub method. 
-		//we will sub, from the number 5 (stored in the rpg) 
-		//the number 3 (already stored in the memory, position 60)
-		//result must be into rpg
-		arch.sub();
-		arch.getRPG().read();
-		//the bus must contains the number 2
-		assertEquals(2, arch.getExtbus1().get());
-		
-		//flags bits must be 0 (bit zero) and 0 (bit negative)
+		arch.getExtbus1().put(40);
+		arch.getMemory().read();
+	
+		assertEquals(1, arch.getExtbus1().get());
+
 		assertEquals(0, arch.getFlags().getBit(0));
 		assertEquals(0, arch.getFlags().getBit(1));
 		
-		//PC must be pointing to 16
 		arch.getPC().read();
-		assertEquals(16, arch.getExtbus1().get());
+		assertEquals(7, arch.getExtbus1().get());
+		
+		
+		// arch.getMemory().getDataList()[5] = 0;
+		// arch.getMemory().getDataList()[6] = 2;
+		
+		// arch.getExtbus1().put(4);
+		// arch.getPC().store();
+
+		// arch.getExtbus1().put(10);
+		// arch.getRegistersList().get(0).store();
+		// arch.getExtbus1().put(10);;
+		// arch.getRegistersList().get(2).store();
+
+		// arch.SubRegReg();
+		
+		// arch.getRegistersList().get(0).read();
+		// assertEquals(10, arch.getExtbus1().get());
+		// arch.getRegistersList().get(2).read();
+		// assertEquals(0, arch.getExtbus1().get());
+
+		// assertEquals(1, arch.getFlags().getBit(0));
+		// assertEquals(0, arch.getFlags().getBit(1));
+		
+		// arch.getPC().read();
+		// assertEquals(7, arch.getExtbus1().get());
+		
+		
+		// /*Architecture arch = new Architecture();
+		
+		// /*************************
+		//  * first test: 5 (rpg) - 8 (mem-40) = -3 (rpg)
+		//  ***********************************************/
+		
+		// //storing the number 8 i the memory, in position 40
+		// arch.getExtbus1().put(40);
+		// arch.getMemory().store();
+		// arch.getExtbus1().put(8);
+		// arch.getMemory().store();
+		// //storing the number 5 in the external bus
+		// arch.getExtbus1().put(5);
+		// //moving this number 5 into the rpg
+		// arch.getRPG0().store();
+		
+		// //moreover, the number 40 must be in the position next to PC. (to perform sub 40)
+		// //in this test, PC will point to 10 and the 40 will be in the position 11
+		// arch.getExtbus1().put(11);
+		// arch.getMemory().store();
+		// arch.getExtbus1().put(40); //40 is in position 11
+		// arch.getMemory().store();
+		// arch.getExtbus1().put(10);
+		// arch.getPC().store();      //PC points to position 10
+		
+		// //now we can perform the sub method. 
+		// //we will sub, from the number 5 (stored in the rpg) 
+		// //the number 8 (stored in the memory, position 40)
+		// //result must be into rpg
+		// arch.subRegReg();
+		// arch.getRPG0().read();
+		// //the bus must contains the number -3
+		// assertEquals(-3, arch.getExtbus1().get());
+		
+		// //flags bits must be 0 (bit zero) and 1 (bit negative)
+		// assertEquals(0, arch.getFlags().getBit(0));
+		// assertEquals(1, arch.getFlags().getBit(1));
+		
+		
+		// //PC must be pointing to 12
+		// arch.getPC().read();
+		// assertEquals(12, arch.getExtbus1().get());
+
+		// /*************************
+		//  * second test: 5 (rpg) - 5 (mem-50) = 0 (rpg)
+		//  ***********************************************/
+		
+		// //storing the number 5 in the memory, in position 50
+		// arch.getExtbus1().put(50);
+		// arch.getMemory().store();
+		// arch.getExtbus1().put(5);
+		// arch.getMemory().store();
+		// //storing the number 5 in the external bus
+		// arch.getExtbus1().put(5);
+		// //moving this number 5 into the rpg
+		// arch.getRPG0().store();
+		
+		// //moreover, the number 50 must be in the position next to PC. (to perform sub 50)
+		// //in this test, PC will point to 12 and the 50 will be in the position 13
+		// arch.getExtbus1().put(13);
+		// arch.getMemory().store();
+		// arch.getExtbus1().put(50); //50 is in position 13
+		// arch.getMemory().store();
+		// arch.getExtbus1().put(12);
+		// arch.getPC().store();      //PC points to position 12
+		
+		
+		// //now we can perform the sub method. 
+		// //we will sub, from the number 5 (stored in the rpg) 
+		// //the number 5 (already stored in the memory, position 50)
+		// //result must be into rpg
+		// arch.subRegReg();
+		// arch.getRPG0().read();
+		// //the bus must contains the number 0
+		// assertEquals(0, arch.getExtbus1().get());
+		
+		// //flags bits must be 1 (bit zero) and 0 (bit negative)
+		// assertEquals(1, arch.getFlags().getBit(0));
+		// assertEquals(0, arch.getFlags().getBit(1));
+		
+		// //PC must be pointing to 14
+		// arch.getPC().read();
+		// assertEquals(14, arch.getExtbus1().get());
+		
+		// /*************************
+		//  * third test: 5 (rpg) - 3 (mem-60) = 2 (rpg)
+		//  ***********************************************/
+		
+		// //storing the number 3 in the memory, in position 60
+		// arch.getExtbus1().put(60);
+		// arch.getMemory().store();
+		// arch.getExtbus1().put(3);
+		// arch.getMemory().store();
+		// //storing the number 5 in the external bus
+		// arch.getExtbus1().put(5);
+		// //moving this number 5 into the rpg
+		// arch.getRPG0().store();
+		
+		// //moreover, the number 60 must be in the position next to PC. (to perform sub 60)
+		// //in this test, PC will point to 14 and the 60 will be in the position 15
+		// arch.getExtbus1().put(15);
+		// arch.getMemory().store();
+		// arch.getExtbus1().put(60); //60 is in position 15
+		// arch.getMemory().store();
+		// arch.getExtbus1().put(14);
+		// arch.getPC().store();      //PC points to position 14
+		
+		
+		// //now we can perform the sub method. 
+		// //we will sub, from the number 5 (stored in the rpg) 
+		// //the number 3 (already stored in the memory, position 60)
+		// //result must be into rpg
+		// arch.subRegReg();
+		// arch.getRPG0().read();
+		// //the bus must contains the number 2
+		// assertEquals(2, arch.getExtbus1().get());
+		
+		// //flags bits must be 0 (bit zero) and 0 (bit negative)
+		// assertEquals(0, arch.getFlags().getBit(0));
+		// assertEquals(0, arch.getFlags().getBit(1));
+		
+		// //PC must be pointing to 16
+		// arch.getPC().read();
+		// assertEquals(16, arch.getExtbus1().get());
+		
 	}
 	
 	@Test
 	public void testJmp() {
 		Architecture arch = new Architecture();
 		//storing the number 10 in PC
-		arch.getIntbus2().put(10);
+		arch.getIntbus1().put(10);
 		arch.getPC().internalStore();
 
 		//storing the number 25 in the memory, in the position just before that one adressed by PC
@@ -249,7 +331,7 @@ public class TestArchitecture {
 		arch.jmp();
 		arch.getPC().internalRead();;
 		//the internalbus2 must contains the number 25
-		assertEquals(25, arch.getIntbus2().get());
+		assertEquals(25, arch.getIntbus1().get());
 
 	}
 	
@@ -258,7 +340,7 @@ public class TestArchitecture {
 		Architecture arch = new Architecture();
 		
 		//storing the number 30 in PC
-		arch.getIntbus2().put(30);
+		arch.getExtbus1().put(30);
 		arch.getPC().internalStore();
 		
 		//storing the number 25 in the into the memory, in position 31, the position just after PC
@@ -284,7 +366,7 @@ public class TestArchitecture {
 		
 		//PC must be storng the number 25
 		arch.getPC().internalRead();
-		assertEquals(25, arch.getIntbus2().get());
+		assertEquals(25, arch.getIntbus1().get());
 		
 		//CASE 2.
 		//Bit ZERO is equals to 0
@@ -307,7 +389,7 @@ public class TestArchitecture {
 		arch.jz();
 		//PC contains the number 32
 		arch.getPC().internalRead();
-		assertEquals(32, arch.getIntbus2().get());
+		assertEquals(32, arch.getIntbus1().get());
 	}
 	
 	@Test
@@ -315,7 +397,7 @@ public class TestArchitecture {
 		Architecture arch = new Architecture();
 		
 		//storing the number 30 in PC
-		arch.getIntbus2().put(30);
+		arch.getIntbus1().put(30);
 		arch.getPC().internalStore();
 		
 		//storing the number 25 in the into the memory, in position 31, the position just after PC
@@ -341,7 +423,7 @@ public class TestArchitecture {
 		
 		//PC must be storng the number 25
 		arch.getPC().internalRead();
-		assertEquals(25, arch.getIntbus2().get());
+		assertEquals(25, arch.getIntbus1().get());
 		
 		//CASE 2.
 		//Bit NEGATIVE is equals to 0
@@ -364,7 +446,7 @@ public class TestArchitecture {
 		arch.jn();
 		//PC contains the number 32
 		arch.getPC().internalRead();
-		assertEquals(32, arch.getIntbus2().get());
+		assertEquals(32, arch.getIntbus1().get());
 	}
 	
 	@Test
@@ -372,9 +454,9 @@ public class TestArchitecture {
 		Architecture arch = new Architecture();
 		//storing the number 10 in RPG
 		arch.getIntbus1().put(10);
-		arch.getRPG().internalStore();
+		arch.getRPG0().internalStore();
 		//testing if RPG stores the number 10
-		arch.getRPG().read();
+		arch.getRPG0().read();
 		assertEquals(10, arch.getExtbus1().get());
 		
 		//storing the number 25 in the memory, in position 31
@@ -399,9 +481,9 @@ public class TestArchitecture {
 		//into the RPG by using the move command (move 31)
 
 		arch.read();
-		arch.getRPG().internalRead();
+		arch.getRPG0().internalRead();
 		//the internalbus1 must contain the number -100 (that is stored in position 25)
-		assertEquals(-100, arch.getRPG().getData());
+		assertEquals(-100, arch.getRPG0().getData());
 		
 		//PC must be pointing two positions after its original value
 		arch.getPC().read();
@@ -428,7 +510,7 @@ public class TestArchitecture {
 		
 		//storing the number 155 in RPG
 		arch.getIntbus1().put(155);
-		arch.getRPG().internalStore();
+		arch.getRPG0().internalStore();
 		
 		//testing if memory contains the number 25 in the 31th position
 		arch.getExtbus1().put(31);
@@ -457,7 +539,7 @@ public class TestArchitecture {
 		Architecture arch = new Architecture();
 		//storing the number 10 in RPG
 		arch.getIntbus1().put(10);
-		arch.getRPG().internalStore();
+		arch.getRPG0().internalStore();
 		
 		//the scenery: PC points to 50, mem[51] (parameter) is -40
 		
@@ -477,7 +559,7 @@ public class TestArchitecture {
 		//into the rpg
 		arch.ldi();
 		
-		arch.getRPG().read();
+		arch.getRPG0().read();
 		//the externalbus1 must contains the number 44
 		assertEquals(-40, arch.getExtbus1().get());
 		
@@ -492,9 +574,9 @@ public class TestArchitecture {
 		Architecture arch = new Architecture();
 		//storing the number 10 in RPG
 		arch.getExtbus1().put(10);
-		arch.getRPG().store();
+		arch.getRPG0().store();
 		//testing if RPG stores the number 10
-		arch.getRPG().read();
+		arch.getRPG0().read();
 		assertEquals(10, arch.getExtbus1().get());
 
 		//destroying data in externalbus 1
@@ -506,7 +588,7 @@ public class TestArchitecture {
 
 		//now we can perform the inc method. 
 		arch.inc();
-		arch.getRPG().read();
+		arch.getRPG0().read();
 		//the externalbus1 must contains the number 11
 		assertEquals(11, arch.getExtbus1().get());
 		
@@ -517,36 +599,30 @@ public class TestArchitecture {
 	}
 	
 	@Test
-	public void testMoveRegReg() {
-		Architecture arch = new Architecture();
+	public void testMoveMemReg() {
+		Architecture1 arch = new Architecture1();
 
 		//storing the number 1 in the memory, in position 31
-		arch.getMemory().getDataList()[31]=1;
-		//storing the number 0 in the memory, in position 32
-		arch.getMemory().getDataList()[32]=0;
+		arch.getMemory().getDataList()[4]= 45;
+		arch.getMemory().getDataList()[5]= 0;
 		//making PC points to position 30
-		arch.getExtbus1().put(30);
+		arch.getExtbus1().put(3);
 		arch.getPC().store();
 		
-		
 		//now setting the registers values
-		arch.getExtbus1().put(45);
+		arch.getExtbus1().put(0);
 		arch.getRegistersList().get(0).store(); //RPG0 has 45
-		arch.getExtbus1().put(99);
-		arch.getRegistersList().get(1).store(); //RPG1 has 99
-		
+
 		//executing the command move REG1 REG0.
-		arch.moveRegReg();
-		
-		//testing if both REG1 and REG0 store the same value: 99
+		arch.moveImmReg();
+
 		arch.getRegistersList().get(0).read();
-		assertEquals(99, arch.getExtbus1().get());
-		arch.getRegistersList().get(1).read();
-		assertEquals(99, arch.getExtbus1().get());
+		assertEquals(45, arch.getExtbus1().get());
 		
 		//Testing if PC points to 3 positions after the original
 		//PC was pointing to 30; now it must be pointing to 33
-		arch.getPC().read();assertEquals(33, arch.getExtbus1().get());
+		arch.getPC().read();
+		assertEquals(6, arch.getExtbus1().get());
 	}
 		
 	
@@ -571,7 +647,7 @@ public class TestArchitecture {
 		
 		Architecture arch = new Architecture();
 		ArrayList<String> commands = arch.getCommandsList();
-		assertTrue("add".equals(commands.get(0)));
+		assertTrue("AddRegReg".equals(commands.get(0)));
 		assertTrue("sub".equals(commands.get(1)));
 		assertTrue("jmp".equals(commands.get(2)));
 		assertTrue("jz".equals(commands.get(3)));
