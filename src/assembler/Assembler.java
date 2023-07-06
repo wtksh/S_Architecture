@@ -118,7 +118,7 @@ public class Assembler {
 		for (String s:lines) {
 			String tokens[] = s.split(" ");
 			if (findCommandNumber(tokens)>=0) { //the line is a command
-				proccessCommand(tokens);
+				processCommand(tokens);
 			}
 			else { //the line is not a command: so, it can be a variable or a label
 				if (tokens[0].endsWith(":")){ //if it ends with : it is a label
@@ -140,61 +140,123 @@ public class Assembler {
 	 * into the final array
 	 * @param tokens
 	 */
-	protected void proccessCommand(String[] tokens) {
+	protected void processCommand(String[] tokens) {
 		String command = tokens[0];
 		String parameter ="";
 		String parameter2 = "";
+		String parameter3 = "";
 		int commandNumber = findCommandNumber(tokens);
-		if (commandNumber == 0) { //must to proccess an addRegReg command
-			parameter = tokens[1];
-			//parameter2 = tokens[2];
-		}
-		// if (commandNumber == 1) { //must to proccess an addMemReg command
-		// 	parameter = tokens[1];
-		// 	parameter2 = tokens[2];
-		// 	parameter = "&"+parameter; //this is a flag to indicate that is position in memory
-		// }
-
-		if (commandNumber == 1) { //must to proccess an sub command
-			parameter = tokens[1];
-			parameter = "&"+parameter;//this is a flag to indicate that is a position in memory		
-		}
-		if (commandNumber == 2) { //must to proccess an jmp command
-			parameter = tokens[1];
-			parameter = "&"+parameter;//this is a flag to indicate that is a position in memory
-		}
-		if (commandNumber == 3) { //must to proccess an jz command
-			parameter = tokens[1];
-			parameter = "&"+parameter;//this is a flag to indicate that is a position in memory
-		}
-		if (commandNumber == 4) { //must to proccess an jn command
-			parameter = tokens[1];
-			parameter = "&"+parameter;//this is a flag to indicate that is a position in memory
-		}
-		if (commandNumber == 5) { //must to proccess an read command
-			parameter = tokens[1];
-			parameter = "&"+parameter;//this is a flag to indicate that is a position in memory
-		}
-		if (commandNumber == 6) { //must to proccess an store command
-			parameter = tokens[1];
-			parameter = "&"+parameter;//this is a flag to indicate that is a position in memory
-		}
-		if (commandNumber == 7) { //must to proccess an ldi command
-			parameter = tokens[1];
-		}
-		if (commandNumber == 8) { //must to proccess an inc command
-			
-		}
-		if (commandNumber == 9) { //must to proccess an moveRegReg command
+		if (commandNumber == 0) { //must to process an addRegReg command
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 		}
+		if (commandNumber == 1) { //must to process an addMemReg command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter = "&" + parameter; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 2) { //must to process an addRegMem command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter2 = "&" + parameter2; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 3) { //must to process a subRegReg command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+		}
+		if (commandNumber == 4) { //must to process a subMemReg command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter = "&" + parameter; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 5) { //must to process a subRegMem command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter2 = "&" + parameter2; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 6) { //must to process an imulMemReg command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter = "&" + parameter; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 7) { //must to process an imulRegMem command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter2 = "&" + parameter2; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 8) { //must to process an imulRegReg command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+		}
+		if (commandNumber == 9) { //must to process a moveMemReg command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter = "&" + parameter; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 10) { //must to process a moveRegMem command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter2 = "&" + parameter2; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 11) { //must to process a moveRegReg command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+		}
+		if (commandNumber == 12) { //must to process a moveImmReg command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+		}
+		if (commandNumber == 13) { //must to process an incReg command
+			parameter = tokens[1];
+		}
+		if (commandNumber == 14) { //must to process an incMem command
+			parameter = tokens[1];
+			parameter = "&" + parameter; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 15) { //must to process a jmp command
+			parameter = tokens[1];
+			parameter = "&" + parameter; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 16) { //must to process a jn command
+			parameter = tokens[1];
+			parameter = "&" + parameter; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 17) { //must to process a jz command
+			parameter = tokens[1];
+			parameter = "&" + parameter; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 18) { //must to process a jnz command
+			parameter = tokens[1];
+			parameter = "&" + parameter; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 19) { //must to process a jeq command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter3 = tokens[3];
+			parameter3 = "&" + parameter3; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 20) { //must to process a jgt command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter3 = tokens[3];
+			parameter3 = "&" + parameter3; //this is a flag to indicate that is position in memory
+		}
+		if (commandNumber == 21) { //must to process a jlw command
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter3 = tokens[3];
+			parameter3 = "&" + parameter3; //this is a flag to indicate that is position in memory
+		}
+
 		objProgram.add(Integer.toString(commandNumber));
 		if (!parameter.isEmpty()) {
 			objProgram.add(parameter);
 		}
 		if (!parameter2.isEmpty()) {
 			objProgram.add(parameter2);
+		}
+		if (!parameter3.isEmpty()) {
+			objProgram.add(parameter3);
 		}
 	}
 	
@@ -209,25 +271,135 @@ public class Assembler {
 	 */
 	private int findCommandNumber(String[] tokens) {
 		int p = commands.indexOf(tokens[0]);
+		
 		if (p<0){ //the command isn't in the list. So it must have multiple formats
+			if ("add".equals(tokens[0])) //the command is an add
+				p = processAdd(tokens);
+			
+			if ("sub".equals(tokens[0])) //the command is a sub
+				p = processSub(tokens);
+
+			if ("imul".equals(tokens[0])) //the commands is a imul
+				p = processImul(tokens);
+
 			if ("move".equals(tokens[0])) //the command is a move
-				p = proccessMove(tokens);
+				p = processMove(tokens);
+
+			if ("inc".equals(tokens[0])) //the command is an inc
+				p = processInc(tokens);
+		}
+
+		return p;
+	}
+
+	/**
+	 * This method process a add command.
+	 * It must have different formats, meaning different internal commands
+	 * @param tokens
+	 * @return
+	 */
+	private int processAdd(String[] tokens) {
+		String p1 = tokens[1];
+		String p2 = tokens[2];
+		int p=-1;
+		if ((p1.startsWith("%"))&&(p2.startsWith("%"))) { //this is a addRegReg command
+			p = commands.indexOf("addRegReg");
+		}
+		else if ((p1.startsWith("%"))) { //this is a addRegMem command
+			p = commands.indexOf("addRegMem");
+		}
+		else if ((p2.startsWith("%"))) { //this is a addMemReg command
+			p = commands.indexOf("addMemReg");
 		}
 		return p;
 	}
 
 	/**
-	 * This method proccess a move command.
-	 * It must have differents formats, meaning differents internal commands
+	 * This method process a sub command.
+	 * It must have different formats, meaning different internal commands
 	 * @param tokens
 	 * @return
 	 */
-	private int proccessMove(String[] tokens) {
+	private int processSub(String[] tokens) {
 		String p1 = tokens[1];
 		String p2 = tokens[2];
 		int p=-1;
-		if ((p1.startsWith("%"))&&(p2.startsWith("%"))) { //this is a moveRegReg comand
+		if ((p1.startsWith("%"))&&(p2.startsWith("%"))) { //this is a subRegReg command
+			p = commands.indexOf("subRegReg");
+		}
+		else if ((p1.startsWith("%"))) { //this is a subRegMem command
+			p = commands.indexOf("subRegMem"); 
+		}
+		else if ((p2.startsWith("%"))) { //this is a subMemReg command
+			p = commands.indexOf("subMemReg");
+		}
+		return p;
+	}
+
+	/**
+	 * This method process a imul command.
+	 * It must have different formats, meaning different internal commands
+	 * @param tokens
+	 * @return
+	 */
+	private int processImul(String[] tokens) {
+		String p1 = tokens[1];
+		String p2 = tokens[2];
+		int p=-1;
+		if ((p1.startsWith("%"))&&(p2.startsWith("%"))) { //this is a imulRegReg command
+			p = commands.indexOf("imulRegReg");
+		}
+		else if ((p1.startsWith("%"))) { //this is a imulRegMem command
+			p = commands.indexOf("imulRegMem");
+		}
+		else if ((p2.startsWith("%"))) { //this is a imulMemReg command
+			p = commands.indexOf("imulMemReg");
+		}
+		return p;
+	}
+
+	/**
+	 * This method process a move command.
+	 * It must have different formats, meaning different internal commands
+	 * @param tokens
+	 * @return
+	 */
+	private int processMove(String[] tokens) {
+		String p1 = tokens[1];
+		String p2 = tokens[2];
+		int p=-1;
+		if ((p1.startsWith("%"))&&(p2.startsWith("%"))) { //this is a moveRegReg command
 			p = commands.indexOf("moveRegReg");
+		}
+		else if ((p1.startsWith("%"))) { //this is a moveRegMem command
+			p = commands.indexOf("moveRegMem");
+		}
+		else if ((p2.startsWith("%"))) { //this is a moveMemReg or moveImmReg command
+			if (p2.matches("[0-9]+")) { // this is a moveImmReg
+				p = commands.indexOf("moveImmReg");
+			}
+			else { // this is a moveMemReg
+				p = commands.indexOf("moveMemReg");
+			}		
+		}
+		return p;
+	}
+
+
+	/**
+	 * This method process a move command.
+	 * It must have different formats, meaning different internal commands
+	 * @param tokens
+	 * @return
+	 */
+	private int processInc(String[] tokens) {
+		String p1 = tokens[1];
+		int p=-1;
+		if ((p1.startsWith("%"))) { //this is a incReg command
+			p = commands.indexOf("incReg");
+		}
+		else { //this is a incMem command
+			p = commands.indexOf("incMem");
 		}
 		return p;
 	}

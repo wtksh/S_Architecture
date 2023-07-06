@@ -913,6 +913,7 @@ public class Architecture1 {
 	 * @param address
 	 */
 	public void jz() {
+		// PC++
 		RPG0.read();
 		IR.store();
 		PC.read();
@@ -945,6 +946,7 @@ public class Architecture1 {
 	}
 
 	public void jnz() {
+		// PC++
 		RPG0.read();
 		IR.store();
 		PC.read();
@@ -977,12 +979,249 @@ public class Architecture1 {
 	}
 
 	public void jeq() {
+		// PC++
+		RPG0.read();
+		IR.store();
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();
+		IR.read();
+		RPG0.store();
+		PC.read();
+
+		//Get <Reg1>
+		memory.read();
+		demux.put(extbus1.get());
+		registersInternalRead();
+		ula.internalStore(0);
+
+		// PC++
+		RPG0.read();
+		IR.store();
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();
+		IR.read();
+		RPG0.store();
+		PC.read();
+
+		//Get <Reg2>
+		memory.read();
+		demux.put(extbus1.get());
+		registersInternalRead();
+		ula.internalStore(1);
+
+		//Sub <Reg1> - <Reg2>
+		ula.sub();
+		ula.internalRead(1);
+		setStatusFlags(intbus1.get());
+
+		// PC++
+		RPG0.read();
+		IR.store();
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();
+
+		// JZ
+		if (Flags.getBit(0) == 1) {
+			PC.read();
+			memory.read();
+			PC.store();
+		}
+		// PC++
+		else {
+			ula.inc();
+			ula.internalRead(1);
+			RPG0.internalStore();
+			RPG0.read();
+			PC.store();
+		}
+		// return RPG0 value
+		IR.read();
+		RPG0.store();
 	}
 
 	public void jgt() {
+		// PC++
+		RPG0.read();
+		IR.store();
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();
+		IR.read();
+		RPG0.store();
+		PC.read();
+
+		//Get <Reg1>
+		memory.read();
+		demux.put(extbus1.get());
+		registersInternalRead();
+		ula.internalStore(0);
+
+		// PC++
+		RPG0.read();
+		IR.store();
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();
+		IR.read();
+		RPG0.store();
+		PC.read();
+
+		//Get <Reg2>
+		memory.read();
+		demux.put(extbus1.get());
+		registersInternalRead();
+		ula.internalStore(1);
+
+		//Sub <Reg1> - <Reg2> --> <Reg2>
+		ula.sub();
+		ula.internalRead(1);
+		setStatusFlags(intbus1.get());
+
+		// PC++
+		RPG0.read();
+		IR.store();
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();
+
+		// J(!N && !Z)
+		if (Flags.getBit(1) == 0 && Flags.getBit(0) == 0) {
+			PC.read();
+			memory.read();
+			PC.store();
+		}
+		// PC++
+		else {
+			ula.inc();
+			ula.internalRead(1);
+			RPG0.internalStore();
+			RPG0.read();
+			PC.store();
+		}
+		// return RPG0 value
+		IR.read();
+		RPG0.store();
 	}
 
 	public void jlw() {
+		// PC++
+		RPG0.read();
+		IR.store();
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();
+		IR.read();
+		RPG0.store();
+		PC.read();
+
+		//Get <Reg1>
+		memory.read();
+		demux.put(extbus1.get());
+		registersInternalRead();
+		ula.internalStore(0);
+
+		// PC++
+		RPG0.read();
+		IR.store();
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();
+		IR.read();
+		RPG0.store();
+		PC.read();
+
+		//Get <Reg2>
+		memory.read();
+		demux.put(extbus1.get());
+		registersInternalRead();
+		ula.internalStore(1);
+
+		//Sub <Reg1> - <Reg2> 
+		ula.sub();
+		ula.internalRead(1);
+		setStatusFlags(intbus1.get());
+
+		// PC++
+		RPG0.read();
+		IR.store();
+		PC.read();
+		RPG0.store();
+		RPG0.internalRead();
+		ula.internalStore(1);
+		ula.inc();
+		ula.internalRead(1);
+		RPG0.internalStore();
+		RPG0.read();
+		PC.store();
+
+		// JN
+		if (Flags.getBit(1) == 1) {
+			PC.read();
+			memory.read();
+			PC.store();
+		}
+		// PC++
+		else {
+			ula.inc();
+			ula.internalRead(1);
+			RPG0.internalStore();
+			RPG0.read();
+			PC.store();
+		}
+		// return RPG0 value
+		IR.read();
+		RPG0.store();
 	}
 		
 	public ArrayList<Register> getRegistersList() {
@@ -1076,7 +1315,7 @@ public class Architecture1 {
 			addMemReg();
 			break;
 		case 2:
-			addMemReg();
+			addRegMem();
 			break;
 		case 3:
 			subRegReg();

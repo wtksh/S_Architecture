@@ -9,7 +9,7 @@ import org.junit.Test;
 public class testAssembler {
 
 	@Test
-	public void testProccessCommand() {
+	public void testProcessCommand() {
 		
 		/*
 		 *  we must to test if the assembler generates correct sequence lines
@@ -33,7 +33,7 @@ public class testAssembler {
 		//first test: add
 		commandLine[0] = "add";
 		commandLine[1] = "variable";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		returnedObj = ass.getObjProgram();
 		assertEquals("0", returnedObj.get(0)); //the add code is 0
 		assertEquals("&variable", ass.getObjProgram().get(1));
@@ -44,7 +44,7 @@ public class testAssembler {
 		ass = new Assembler();
 		commandLine[0] = "sub";
 		commandLine[1] = "variable";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		returnedObj = ass.getObjProgram();
 		assertEquals("1", returnedObj.get(0)); //the add code is 0
 		assertEquals("&variable", ass.getObjProgram().get(1));
@@ -55,7 +55,7 @@ public class testAssembler {
 		ass = new Assembler();
 		commandLine[0] = "jmp";
 		commandLine[1] = "label";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		returnedObj = ass.getObjProgram();
 		assertEquals("2", returnedObj.get(0)); //the add code is 0
 		assertEquals("&label", ass.getObjProgram().get(1));
@@ -66,7 +66,7 @@ public class testAssembler {
 		ass = new Assembler();
 		commandLine[0] = "jz";
 		commandLine[1] = "label";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		returnedObj = ass.getObjProgram();
 		assertEquals("3", returnedObj.get(0)); //the add code is 0
 		assertEquals("&label", ass.getObjProgram().get(1));
@@ -77,7 +77,7 @@ public class testAssembler {
 		ass = new Assembler();
 		commandLine[0] = "jn";
 		commandLine[1] = "label";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		returnedObj = ass.getObjProgram();
 		assertEquals("4", returnedObj.get(0)); //the add code is 0
 		assertEquals("&label", ass.getObjProgram().get(1));
@@ -88,7 +88,7 @@ public class testAssembler {
 		ass = new Assembler();
 		commandLine[0] = "read";
 		commandLine[1] = "address";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		returnedObj = ass.getObjProgram();
 		assertEquals("5", returnedObj.get(0)); //the add code is 0
 		assertEquals("&address", ass.getObjProgram().get(1));
@@ -99,7 +99,7 @@ public class testAssembler {
 		ass = new Assembler();
 		commandLine[0] = "store";
 		commandLine[1] = "address";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		returnedObj = ass.getObjProgram();
 		assertEquals("6", returnedObj.get(0)); //the add code is 0
 		assertEquals("&address", ass.getObjProgram().get(1));
@@ -110,7 +110,7 @@ public class testAssembler {
 		ass = new Assembler();
 		commandLine[0] = "ldi";
 		commandLine[1] = "40";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		returnedObj = ass.getObjProgram();
 		assertEquals("7", returnedObj.get(0)); //the add code is 0
 		assertEquals("40", ass.getObjProgram().get(1));
@@ -121,7 +121,7 @@ public class testAssembler {
 		ass = new Assembler();
 		commandLine[0] = "inc";
 		commandLine[1] = "address";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		returnedObj = ass.getObjProgram();
 		assertEquals("8", returnedObj.get(0)); //the add code is 0
 		assertEquals(1, ass.getObjProgram().size()); //only one lines: the command and no parameters
@@ -132,7 +132,7 @@ public class testAssembler {
 		commandLine[0] = "move";
 		commandLine[1] = "%RPG0";
 		commandLine[2] = "%RPG1";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		returnedObj = ass.getObjProgram();
 		assertEquals("9", returnedObj.get(0)); //the move %regA %regB code is 9
 		assertEquals("%RPG0", ass.getObjProgram().get(1));
@@ -154,28 +154,28 @@ public class testAssembler {
 		ass = new Assembler();
 		commandLine[0] = "sub";
 		commandLine[1] = "adr1";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		commandLine[0] = "add";
 		commandLine[1] = "adr2";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		commandLine[0] = "jmp";
 		commandLine[1] = "label1";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		commandLine[0] = "inc";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		commandLine[0] = "jn";
 		commandLine[1] = "label2";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		commandLine[0] = "ldi";
 		commandLine[1] = "86";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		commandLine[0] = "move";
 		commandLine[1] = "%RPG0";
 		commandLine[2] = "%RPG1";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		commandLine[0] = "read";
 		commandLine[1] = "adr3";
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		//now, getting the object program
 		returnedObj = ass.getObjProgram();
 		assertEquals(16, returnedObj.size()); //the object program must have 16 lines
