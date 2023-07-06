@@ -309,29 +309,27 @@ public class TestArchitecture {
 	
 	@Test
 	public void testJmp() {
-		Architecture arch = new Architecture();
-		//storing the number 10 in PC
-		arch.getIntbus1().put(10);
-		arch.getPC().internalStore();
-
-		//storing the number 25 in the memory, in the position just before that one adressed by PC
-		arch.getExtbus1().put(11); //the position is 11, once PC points to 10
-		arch.getMemory().store();
-		arch.getExtbus1().put(25);
-		arch.getMemory().store();
+		Architecture1 arch = new Architecture1();
 		
+		arch.getMemory().getDataList()[5] = 1;
+		arch.getMemory().getDataList()[6] = 0;
+		arch.getMemory().getDataList()[7] = 30;
+		arch.getExtbus1().put(4);
+		arch.getPC().store();
 		
-		//testing if PC stores the number 10
 		arch.getPC().read();
-		assertEquals(10, arch.getExtbus1().get());
+		assertEquals(4, arch.getExtbus1().get());
 		
-		//now we can perform the jmp method. 
-		//we will move the the number 25 (stored in the 31th position in the memory) 
-		//into the PC
-		arch.jmp();
-		arch.getPC().internalRead();;
+		arch.getExtbus1().put(8);
+		arch.getRegistersList().get(1).store();
+
+		arch.getExtbus1().put(9);
+		arch.getRegistersList().get(0).store();
+
+		arch.jlw();
+		arch.getPC().read();
 		//the internalbus2 must contains the number 25
-		assertEquals(25, arch.getIntbus1().get());
+		assertEquals(30, arch.getExtbus1().get());
 
 	}
 	
@@ -571,30 +569,24 @@ public class TestArchitecture {
 	
 	@Test
 	public void testInc() {
-		Architecture arch = new Architecture();
-		//storing the number 10 in RPG
-		arch.getExtbus1().put(10);
-		arch.getRPG0().store();
-		//testing if RPG stores the number 10
-		arch.getRPG0().read();
-		assertEquals(10, arch.getExtbus1().get());
-
-		//destroying data in externalbus 1
-		arch.getExtbus1().put(0);
+		Architecture1 arch = new Architecture1();
 		
-		//pc points to 50 (where we suppose the instruction is
-		arch.getExtbus1().put(50);
+		arch.getMemory().getDataList()[10] = 5;
+		arch.getMemory().getDataList()[5] = 10;
+		arch.getExtbus1().put(4);
 		arch.getPC().store();
 
-		//now we can perform the inc method. 
-		arch.inc();
-		arch.getRPG0().read();
-		//the externalbus1 must contains the number 11
-		assertEquals(11, arch.getExtbus1().get());
+
+
+		arch.incMem();
+		arch.getExtbus1().put(10);
+		arch.getMemory().read();
+
+		assertEquals(6, arch.getExtbus1().get());
 		
 		//PC must be pointing ONE position after its original value, because this command has no parameters!
 		arch.getPC().read();
-		assertEquals(51, arch.getExtbus1().get());
+		assertEquals(6, arch.getExtbus1().get());
 
 	}
 	
