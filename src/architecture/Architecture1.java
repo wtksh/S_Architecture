@@ -1032,8 +1032,14 @@ public class Architecture1 {
 		RPG0.internalStore();
 		RPG0.read();
 		PC.store(); //now PC points to the parameter address
+		IR.read();
+		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
 		
 		//Get Mem
+		RPG0.read();
+		IR.store();
+		PC.read();
 		memory.read();
 		memory.read();
 		RPG0.store();
@@ -1051,8 +1057,12 @@ public class Architecture1 {
 		memory.store();
 		RPG0.read();
 		memory.store();
+		IR.read();
+		RPG0.store();
 
-		//PC++
+		// PC++
+		RPG0.read();
+		IR.store();//Saves original value RPG0 in IR
 		PC.read();
 		RPG0.store();
 		RPG0.internalRead();
@@ -1061,9 +1071,10 @@ public class Architecture1 {
 		ula.internalRead(1);
 		RPG0.internalStore();
 		RPG0.read();
-		PC.store();//now PC points to the parameter address
+		PC.store(); //now PC points to the parameter address
 		IR.read();
 		RPG0.store();//Back original value for RPG0
+		PC.read();//Return pc value for extbus1
 	}
 
 	/**
@@ -1205,7 +1216,7 @@ public class Architecture1 {
 		PC.store();
 
 		// JNZ
-		if (Flags.getBit(1) == 1 && Flags.getBit(0) == 1) {
+		if (Flags.getBit(0) == 0) {
 			PC.read();
 			memory.read();
 			PC.store();
