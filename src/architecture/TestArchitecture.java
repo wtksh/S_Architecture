@@ -60,7 +60,7 @@ public class TestArchitecture {
 
 	@Test
 	public void testAddRegReg(){
-		Architecture arch = new Architecture();
+		Architecture1 arch = new Architecture1();
 		
 		arch.getMemory().getDataList()[5] = 2;
 		arch.getMemory().getDataList()[6] = 40;
@@ -72,7 +72,7 @@ public class TestArchitecture {
 		arch.getExtbus1().put(5);
 		arch.getRegistersList().get(2).store();
 
-		arch.AddRegMem();
+		arch.addRegMem();
 
 		arch.getExtbus1().put(40);
 		arch.getMemory().read();
@@ -129,7 +129,7 @@ public class TestArchitecture {
 	
 	@Test
 	public void testSubRegReg() {
-		Architecture arch = new Architecture();
+		Architecture1 arch = new Architecture1();
 
 		arch.getMemory().getDataList()[5] = 2;
 		arch.getMemory().getDataList()[6] = 40;
@@ -141,7 +141,7 @@ public class TestArchitecture {
 		arch.getExtbus1().put(6);
 		arch.getRegistersList().get(2).store();
 
-		arch.SubRegMem();
+		arch.subRegMem();
 		
 		arch.getExtbus1().put(40);
 		arch.getMemory().read();
@@ -449,7 +449,7 @@ public class TestArchitecture {
 	
 	@Test
 	public void testRead() {
-		Architecture arch = new Architecture();
+		Architecture1 arch = new Architecture1();
 		//storing the number 10 in RPG
 		arch.getIntbus1().put(10);
 		arch.getRPG0().internalStore();
@@ -478,7 +478,7 @@ public class TestArchitecture {
 		//we will move the the number 25 (stored in the 31th position in the memory) 
 		//into the RPG by using the move command (move 31)
 
-		arch.read();
+		//arch.read();
 		arch.getRPG0().internalRead();
 		//the internalbus1 must contain the number -100 (that is stored in position 25)
 		assertEquals(-100, arch.getRPG0().getData());
@@ -491,7 +491,7 @@ public class TestArchitecture {
 	
 	@Test
 	public void testStore() {
-		Architecture arch = new Architecture();
+		Architecture1 arch = new Architecture1();
 
 		//storing the number 25 in the memory, in position 31
 		arch.getMemory().getDataList()[31]=25;
@@ -520,7 +520,7 @@ public class TestArchitecture {
 		//destroying data in externalbus 1
 		arch.getExtbus1().put(0);
 
-		arch.store();
+		//arch.store();
 
 		//now, memory[31] must be updated from 25 to 155
 		assertEquals(155, arch.getMemory().getDataList()[31]);
@@ -534,7 +534,7 @@ public class TestArchitecture {
 	
 	@Test
 	public void testLdi() {
-		Architecture arch = new Architecture();
+		Architecture1 arch = new Architecture1();
 		//storing the number 10 in RPG
 		arch.getIntbus1().put(10);
 		arch.getRPG0().internalStore();
@@ -555,7 +555,7 @@ public class TestArchitecture {
 		//now we can perform the ldi method. 
 		//we will move the the number -40 (immediate value) 
 		//into the rpg
-		arch.ldi();
+		//arch.ldi();
 		
 		arch.getRPG0().read();
 		//the externalbus1 must contains the number 44

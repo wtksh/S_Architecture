@@ -46,8 +46,8 @@ public class Architecture1 {
 		extbus1 = new Bus();
 		intbus1 = new Bus();
 
-		PC = new Register("PC", extbus1, null);
-		IR = new Register("IR", extbus1, null);
+		PC = new Register("PC", extbus1, extbus1);
+		IR = new Register("IR", extbus1, extbus1);
 		RPG0 = new Register("RPG0", extbus1, intbus1);
 		RPG1 = new Register ("RPG1", extbus1, intbus1);
 		RPG2 = new Register("RPG2", extbus1, intbus1);

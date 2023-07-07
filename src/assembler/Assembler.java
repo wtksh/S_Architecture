@@ -15,13 +15,14 @@ import org.hamcrest.core.IsNull;
 import components.Register;
 
 import architecture.Architecture;
+import architecture.Architecture1;
 
 public class Assembler {
 	
 	private ArrayList<String> lines;
 	private ArrayList<String> objProgram;
 	private ArrayList<String> execProgram;
-	private Architecture arch;
+	private Architecture1 arch;
 	private ArrayList<String>commands;	
 	private ArrayList<String>labels;
 	private ArrayList<Integer> labelsAdresses;
@@ -35,7 +36,7 @@ public class Assembler {
 		variables = new ArrayList<>();
 		objProgram = new ArrayList<>();
 		execProgram = new ArrayList<>();
-		arch = new Architecture();
+		arch = new Architecture1();
 		commands = arch.getCommandsList();	
 	}
 	
@@ -375,7 +376,7 @@ public class Assembler {
 			p = commands.indexOf("moveRegMem");
 		}
 		else if ((p2.startsWith("%"))) { //this is a moveMemReg or moveImmReg command
-			if (p2.matches("[0-9]+")) { // this is a moveImmReg
+			if (p1.matches("-?[0-9]+")) { // this is a moveImmReg
 				p = commands.indexOf("moveImmReg");
 			}
 			else { // this is a moveMemReg
