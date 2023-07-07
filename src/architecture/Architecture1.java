@@ -1560,8 +1560,8 @@ public class Architecture1 {
 	 * And the execute proccess, that is the execution itself of the command
 	 */
 	private void decodeExecute() {
-		IR.internalRead(); //the instruction is in the internalbus2
-		int command = intbus1.get();
+		IR.read(); //the instruction is in the internalbus2
+		int command = extbus1.get();
 		simulationDecodeExecuteBefore(command);
 		switch (command) {
 		case 0:
@@ -1647,7 +1647,7 @@ public class Architecture1 {
 	private void simulationDecodeExecuteBefore(int command) {
 		System.out.println("----------BEFORE Decode and Execute phases--------------");
 		String instruction;
-		int parameter = 0;
+		int[] parameters = new int[3];
 		for (Register r:registersList) {
 			System.out.println(r.getRegisterName()+": "+r.getData());
 		}
@@ -1655,15 +1655,13 @@ public class Architecture1 {
 			instruction = commandsList.get(command);
 		else
 			instruction = "END";
-		if (hasOperands(instruction)) {
-			parameter = memory.getDataList()[PC.getData()+1];
-			System.out.println("Instruction: "+instruction+" "+parameter);
+
+		System.out.print("Instruction: "+instruction);
+		for (int i = 0; i < getNumOfOperands(command); i++) {
+			parameters[i] = memory.getDataList()[PC.getData()+1+i];
+			System.out.print(" "+parameters[i]);
 		}
-		else
-			System.out.println("Instruction: "+instruction);
-		if ("read".equals(instruction))
-			System.out.println("memory["+parameter+"]="+memory.getDataList()[parameter]);
-		
+		System.out.println();
 	}
 
 	/**
@@ -1674,7 +1672,6 @@ public class Architecture1 {
 		String instruction;
 		System.out.println("-----------AFTER Decode and Execute phases--------------");
 		System.out.println("Internal Bus 1: "+intbus1.get());
-		System.out.println("Internal Bus 2: "+intbus1.get());
 		System.out.println("External Bus 1: "+extbus1.get());
 		for (Register r:registersList) {
 			System.out.println(r.getRegisterName()+": "+r.getData());
@@ -1710,17 +1707,29 @@ public class Architecture1 {
 	}
 
 	/**
-	 * This method is used to show in a correct way the operands (if there is any) of instruction,
+	 * This method is used to show in a correct way the number of operands (if there is any) of instruction,
 	 * when in simulation mode
 	 * NOT TESTED!!!!!
 	 * @param instruction 
 	 * @return
 	 */
-	private boolean hasOperands(String instruction) {
-		if ("inc".equals(instruction)) //inc is the only one instruction having no operands
-			return false;
-		else
-			return true;
+	private int getNumOfOperands(int command) {
+		int[] oneOp = {13, 14, 15, 16, 17, 18}; // "inc", "jmp", "jn", "jz", "jnz"
+		int[] twoOp = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}; // "add", "sub", "imul", "move"
+		int[] threeOp = {19, 20, 21}; // "jeq", "jgt", "jlw"
+		for (int opCode : oneOp) {
+			if (opCode == command)
+				return 1;
+		}
+		for (int opCode : twoOp) {
+			if (opCode == command)
+				return 2;
+		}
+		for (int opCode : threeOp) {
+			if (opCode == command)
+				return 3;
+		}
+		return 0;
 	}
 
 	/**
