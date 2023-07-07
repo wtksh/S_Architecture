@@ -30,7 +30,7 @@ public class TestArchitecture {
 //		jn point
 //		end
 		
-		Architecture arch = new Architecture(true);
+		Architecture1 arch = new Architecture1(true);
 		arch.getMemory().getDataList()[0]=7;
 		arch.getMemory().getDataList()[1]=2;
 		arch.getMemory().getDataList()[2]=6;
@@ -335,7 +335,7 @@ public class TestArchitecture {
 	
 	@Test
 	public void testJz() {
-		Architecture arch = new Architecture();
+		Architecture1 arch = new Architecture1();
 		
 		//storing the number 30 in PC
 		arch.getExtbus1().put(30);
@@ -392,7 +392,7 @@ public class TestArchitecture {
 	
 	@Test
 	public void testJn() {
-		Architecture arch = new Architecture();
+		Architecture1 arch = new Architecture1();
 		
 		//storing the number 30 in PC
 		arch.getIntbus1().put(30);
@@ -637,7 +637,7 @@ public class TestArchitecture {
 
 		
 		
-		Architecture arch = new Architecture();
+		Architecture1 arch = new Architecture1();
 		ArrayList<String> commands = arch.getCommandsList();
 		assertTrue("AddRegReg".equals(commands.get(0)));
 		assertTrue("sub".equals(commands.get(1)));
@@ -652,7 +652,7 @@ public class TestArchitecture {
 	
 	@Test
 	public void testReadExec() throws IOException {
-		Architecture arch = new Architecture();
+		Architecture1 arch = new Architecture1();
 		arch.readExec("testFile");
 		assertEquals(5, arch.getMemory().getDataList()[0]);
 		assertEquals(4, arch.getMemory().getDataList()[1]);
