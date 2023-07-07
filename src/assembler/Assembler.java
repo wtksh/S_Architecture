@@ -14,7 +14,6 @@ import org.hamcrest.core.IsNull;
 
 import components.Register;
 
-import architecture.Architecture;
 import architecture.Architecture1;
 
 public class Assembler {
