@@ -1732,6 +1732,18 @@ public class Architecture1 {
 		return 0;
 	}
 
+	private void saveInMemory(int destiny){
+		getMemory().getDataList()[232] = getRPG0().getData();
+		getMemory().getDataList()[233] = getRPG1().getData();
+		getMemory().getDataList()[234] = getRPG2().getData();
+		getMemory().getDataList()[235] = getRPG3().getData();
+		getMemory().getDataList()[236] = getPC().getData();
+		getMemory().getDataList()[237] = getIR().getData();
+		getMemory().getDataList()[238] = destiny;
+	}
+
+	
+
 	/**
 	 * This method returns the amount of positions allowed in the memory
 	 * of this architecture
